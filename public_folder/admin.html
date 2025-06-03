@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Booking Approvals</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="navbar.css">
+  <link rel="stylesheet" href="footer1.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 28px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+      transition: 0.5s s;
+    }
+
+    tr:hover {
+      transform: scale(1, 1);
+      box-shadow: 0 3px 6px rgba(224, 45, 173, 0.497), 0 3px 6px rgba(224, 45, 173, 0.497);
+    }
+
+    th {
+      background-color: #333;
+      color: white;
+    }
+
+    .approve,
+    .reject {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .approve {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .reject {
+      background-color: #f44336;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      h2 {
+        font-size: 22px;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .approve,
+      .reject {
+        padding: 5px 10px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 20px;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        font-size: 12px;
+      }
+
+      .approve,
+      .reject {
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="logo">CFBS</div>
+
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="nav-links" id="navLinks">
+      <a href="home.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="#">Services</a>
+      <a href="#">Work Gallery</a>
+      <a href="contact.html">Contact us</a>
+    </div>
+
+    <div class="quote" id="quoteLink">
+      <a href="#">Request Quote</a>
+    </div>
+  </div>
+
+  <h2>Admin Panel - Pending Bookings</h2>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Name</th>
+          <th>Sport</th>
+          <th>Date</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="bookingTableBody"></tbody>
+    </table>
+  </div>
+  <footer>
+    <div class="footer-column">
+      <div class="Flogo">CFBS</div>
+    </div>
+
+    <div class="footer-column">
+      <h3>Sport Services</h3>
+      <ul>
+        <li><a href="games/cricket.html">Cricket</a></li>
+        <li><a href="games/footboll.html">Football</a></li>
+        <li><a href="games/basketball.html">Basketball</a></li>
+        <li><a href="games/Kabbadi.html">Kabbadi</a></li>
+        <li><a href="games/Carrom.html">Carrom</a></li>
+        <li><a href="games/Chess.html">Chess</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Services</h3>
+      <ul>
+        <li><a href="games/Auditorium.html">Auditorium</a></li>
+        <li><a href="games/Conference.html">Conference</a></li>
+        <li><a href="games/Open_Stage.html">Open Stage</a></li>
+        <li><a href="games/Seminar.html">Seminar Room</a></li>
+        <li><a href="games/chemistrylab.html">Science Lab</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Pages</h3>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="workgallery.html">Work Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Company</h3>
+      <ul>
+        <li><a href="termsandconditions.html">Terms & Conditions</a></li>
+        <li><a href="privacypolicy.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="footer.js"></script>
+  <script>
+    async function fetchBookings() {
+      const res = await fetch('/admin/bookings');
+      const bookings = await res.json();
+      const tableBody = document.getElementById('bookingTableBody');
+      tableBody.innerHTML = '';
+
+      bookings.forEach(b => {
+        const row = `
+          <tr>
+            <td>${b.studentId}</td>
+            <td>${b.studentName}</td>
+            <td>${b.sport}</td>
+            <td>${b.date}</td>
+            <td>${b.startTime}</td>
+            <td>${b.endTime}</td>
+            <td>${b.status}</td>
+            <td>
+              ${b.status === 'pending' ? `
+                <button class="approve" onclick="approveBooking('${b._id}')">Approve</button>
+                <button class="reject" onclick="rejectBooking('${b._id}')">Reject</button>
+              ` : ''}
+            </td>
+          </tr>`;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    async function approveBooking(id) {
+      const res = await fetch('/admin/approve/' + id, { method: 'POST' });
+      if (res.ok) {
+        alert('Approved!');
+        fetchBookings();
+      } else {
+        alert('Error approving.');
+      }
+    }
+
+    async function rejectBooking(id) {
+      const res = await fetch('/admin/reject/' + id, { method: 'POST' });
+      if (res.ok) {
+        alert('Rejected!');
+        fetchBookings();
+      } else {
+        alert('Error rejecting.');
+      }
+    }
+
+    fetchBookings();
+  </script>
+
+</body>
+
+</html>
