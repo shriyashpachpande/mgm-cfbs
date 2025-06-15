@@ -1,9 +1,15 @@
 
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+
+
+            /**/
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         .cursor-dot {
@@ -29,7 +35,7 @@
             transform: translate(-50%, -50%);
         }
 
-
+/* 
         .container {
             display: flex;
             justify-content: center;
@@ -37,7 +43,15 @@
             padding: 20px 150px;
             gap: 40px;
             flex-wrap: wrap;
-        }
+        } */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 150px;  /* ✅ 150px space on both sides */
+            gap: 40px;
+            flex-wrap: wrap;
+          }
 
         .image-container {
             flex: 1.2;
@@ -176,3 +190,76 @@
             font-size: 65px;
             text-align: center;color: #e32891;
         }
+
+
+        /*  here is the css of modified*/
+        @media (max-width: 992px) {
+            .container {
+                padding: 20px 30px 20px 20px; /* ✅ Left: 20px, Right: 30px */
+              }
+        
+            .image-container {
+                padding: 15px;
+                max-width: 100%;
+                max-height: unset;
+            }
+        
+            .image-container img {
+                height: auto;
+                max-width: 100%;
+            }
+        
+            form {
+                width: 100%;
+                padding: 15px;
+            }
+        
+            h1 {
+                font-size: 40px;
+            }
+        }
+        
+        /* Small phones */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px 10px;  /* very small padding on mobile */
+            }
+        
+            h1 {
+                font-size: 32px;
+                margin: 10px 0;
+            }
+        
+            form input,
+            form select,
+            form button {
+                font-size: 14px;
+                padding: 8px;
+            }
+        
+            .image-container {
+                padding: 10px;
+            }
+        }
+        
+
+
+
+
+
+        @media (max-width: 480px) {
+            .container {
+              padding: 15px 30px 15px 10px; /* ✅ Left: 10px, Right: 30px */
+            }
+          
+            .image-container,
+            form {
+              width: 100%;
+              max-width: 100%;
+            }
+          
+            h1 {
+              font-size: 32px;
+              text-align: center;
+            }
+          }
