@@ -1,0 +1,99 @@
+<!-- navbar.html -->
+
+
+
+<div class="navbar">
+    <div class="logo">CFBS</div>
+    <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="nav-links" id="navLinks">
+        <a href="../privacypolicy.html">Privacy Policy</a>
+        <a href="about.html">About Us</a>
+
+
+
+
+
+
+        <!-- <a href="#">Services</a> -->
+
+        <span class="Servicesbtn hovering" onclick=" const menu = document.getElementById('servicesList');
+if(menu.style.display==='block'){
+menu.style.display = 'none';
+}
+else{
+menu.style.display = 'block';
+}">
+            <span style="cursor: pointer;     text-decoration: none;
+             color: black;
+             font-weight: 500;
+             font-weight: bold;
+             font-family: sans-serif;
+             transition: 0.4s;
+             font-size: 16px;
+             letter-spacing: 0.5px;">Services</span>
+
+
+            <ul id="servicesList" style="   display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            list-style: none;
+            padding: 0;
+            margin: 5px 0 0;
+            z-index: 1000;
+            min-width: 100px;">
+
+                <a href="../sports.html" style="text-decoration: none;">
+                    <li style="  padding: 8px 20px;cursor: pointer;">Sport</li>
+                </a>
+                <a href="../eventPresentation.html" style="text-decoration: none;">
+                    <li style="  padding: 8px 20px;cursor: pointer;">Events</li>
+                </a>
+                <a href="../academic_facilities.html" style="text-decoration: none;">
+                    <li style="  padding: 8px 20px;cursor: pointer;">Academic</li>
+                </a>
+                <a href="../library.html" style="text-decoration: none;">
+                    <li style="  padding: 8px 20px;cursor: pointer;">Study</li>
+                </a>
+
+            </ul>
+        </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <a href="home.html">Home</a>
+        <a href="contact.html">Contact us</a>
+    </div>
+
+    <div class="quote" id="quoteLink">
+        <a href="contact.html">Request Quote</a>
+    </div>
+</div>
