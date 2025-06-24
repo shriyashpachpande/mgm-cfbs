@@ -16,7 +16,11 @@ router.post('/login', async (req, res) => {
       // Student login logic
       const user = await Student.findOne({ username, password });
       if (user) {
-        req.session.user = user;
+        // req.session.user = user;
+        req.session.user = {
+          studentId: user.studentId,
+          studentName: `${user.firstName} ${user.lastName}`
+        };
         return res.status(200).json({ success: true, redirect: "home.html" });
       } else {
         return res.status(401).json({ success: false, message: "Invalid credentials" });
