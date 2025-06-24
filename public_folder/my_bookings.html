@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings</title>
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="footer1.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            height: 30px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            transform: scale(1, 1);
+            box-shadow: 0 3px 6px rgba(224, 45, 173, 0.497), 0 3px 6px rgba(224, 45, 173, 0.497);
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar will load here -->
+    <div id="navbarContainer"></div>
+    <script src="/js/loadNavbar.js"></script>
+    <br><br>
+
+    <h2 style="text-align: center; color: #e32891; font-size: 29px; ">My Recent Bookings</h2>
+    <br><br>
+    <table id="bookingsTable">
+        <thead>
+            <tr>
+                <th>Student ID</th> <!-- 👈 Added column -->
+                <th>Sport</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        async function loadBookings() {
+            const res = await fetch('/book/my-bookings', {
+                method: 'GET',
+                credentials: 'include'
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                alert("Error: " + err.message);
+                return;
+            }
+
+            const bookings = await res.json();
+            const tbody = document.querySelector("#bookingsTable tbody");
+            tbody.innerHTML = '';
+
+            bookings.forEach(booking => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+          <td>${booking.studentId}</td> <!-- 👈 Displaying Student ID -->
+          <td>${booking.sport}</td>
+          <td>${booking.date}</td>
+          <td>${booking.startTime} - ${booking.endTime}</td>
+          <td>${booking.status}</td>
+          <td>
+            ${booking.status === 'pending' ? `<button onclick="cancelBooking('${booking._id}')">Cancel</button>` : ''}
+          </td>
+        `;
+                tbody.appendChild(row);
+            });
+        }
+
+        async function cancelBooking(id) {
+            if (!confirm("Are you sure you want to cancel this booking?")) return;
+
+            const res = await fetch('/book/cancel-booking', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ bookingId: id })
+            });
+
+            const data = await res.json();
+            alert(data.message);
+            loadBookings();
+        }
+
+        loadBookings();
+    </script>
+
+    <script>
+        // Navbar loader
+        fetch("/components/navbar.html")
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById("navbarContainer").innerHTML = html;
+            });
+    </script><br><br><br>
+    <footer>
+        <div class="footer-column">
+            <div class="Flogo">CFBS</div>
+        </div>
+
+        <div class="footer-column">
+            <h3>Sport Services</h3>
+            <ul>
+                <li><a href="games/cricket.html">Cricket</a></li>
+                <li><a href="games/footboll.html">Football</a></li>
+                <li><a href="games/basketball.html">Basketball</a></li>
+                <li><a href="games/Kabbadi.html">Kabbadi</a></li>
+                <li><a href="games/Carrom.html">Carrom</a></li>
+                <li><a href="games/Chess.html">Chess</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Services</h3>
+            <ul>
+                <li><a href="games/Auditorium.html">Auditorium</a></li>
+                <li><a href="games/Conference.html">Conference</a></li>
+                <li><a href="games/Open_Stage.html">Open Stage</a></li>
+                <li><a href="games/Seminar.html">Seminar Room</a></li>
+                <li><a href="games/chemistrylab.html">Science Lab</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Pages</h3>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="workgallery.html">Work Gallery</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Company</h3>
+            <ul>
+                <li><a href="termsandconditions.html">Terms & Conditions</a></li>
+                <li><a href="privacypolicy.html">Privacy Policy</a></li>
+            </ul>
+        </div>
+    </footer>
+    <script src="footer.js"></script>
+</body>
+
+</html>
