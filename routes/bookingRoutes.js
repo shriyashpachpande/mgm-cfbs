@@ -33,4 +33,40 @@ router.post('/', async (req, res) => {
   }
 });
 
+
+
+//------------------------------------------------------------------------------------------------------------
+// ✅ NEW: Get student’s bookings
+router.get('/my-bookings', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: "Not logged in" });
+  }
+
+  try {
+    const bookings = await Booking.find({ studentId: req.session.user.studentId });
+    res.json(bookings);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ✅ NEW: Cancel pending booking
+router.post('/cancel-booking', async (req, res) => {
+  const { bookingId } = req.body;
+
+  try {
+    const booking = await Booking.findById(bookingId);
+    if (!booking) return res.status(404).json({ message: "Booking not found" });
+    if (booking.status !== 'pending') return res.status(400).json({ message: "Only pending bookings can be canceled" });
+
+    await Booking.findByIdAndDelete(bookingId);
+    res.json({ message: "Booking canceled successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 module.exports = router;
