@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     { "src": "app.js", "use": "@vercel/node" },
-    { "src": "public_folder/**/*", "use": "@vercel/static" }
+    { "src": "public_folder/(.*)", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "app.js" },
